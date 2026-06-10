@@ -220,3 +220,30 @@ Finally, replace `ls` with playbook run command:
 ```groovy
 sshCommand remote: remote, command: "ansible-playbook my-playbook.yaml"
 ```
+
+![](./images/exec-playbook-from-jenkins.png)
+
+### Add optional step of preparing ansible server
+
+Add to Jenkinsfile
+```groovy
+sshScript remote: remote, script: "prepare-ansible-server.sh"
+```
+
+Execute the pipeline
+
+![](./images/demo.gif)
+
+Check docker on the EC2 instance:
+
+```sh
+mv ~/Downloads/ansible-jenkins.pem ~/.ssh
+chmod 400 ~/.ssh/ansible-jenkins.pem
+ssh -i ~/.ssh/ansible-jenkins.pem ec2-user@<ec2-ip-address>
+docker version
+docker compose version
+```
+
+![](./images/check-ec2-docker.png)
+
+### Clean up
