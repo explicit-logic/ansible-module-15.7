@@ -89,9 +89,9 @@ Create a new key pair: `ansible-jenkins`
 
 ![](./images/ec2-instances.png)
 
-### JenkinsFile: Copy files from Jenkins to Ansible Server
-
 ### Execute Ansible Playbook from Jenkins Pipeline to configure 2 EC2 instances
+
+**JenkinsFile: Copy files from Jenkins to Ansible Server**
 
 - Add global credentials at Jenkins
 
@@ -151,3 +151,36 @@ Add a new stage to Jenkinsfile, set ANSIBLE_SERVER param which is public ip of t
           }
       }
 ```
+
+- Create a new Pipeline at Jenkins
+
+Name: `ansible-pipeline`
+
+Type: `Pipeline`
+
+![](./images/ansible-pipeline.png)
+
+Set up
+
+- Pipeline script from SCM
+
+Repository URL: https://github.com/explicit-logic/ansible-module-15.7
+
+Credentials: `github` (username and password)
+
+Branch Specifier: `main`
+
+![](./images/pipeline-scm.png)
+
+Run the pipeline, press `Build with Parameters`
+
+![](./images/pipeline-copy-stage.png)
+
+Connect to the ansible server and check if the files transfered
+
+```sh
+ssh root@<ansible-server-ip>
+ls
+```
+
+![](./images/ansible-server-transfered-configs.png)
